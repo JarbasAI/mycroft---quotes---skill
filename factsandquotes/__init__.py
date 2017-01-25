@@ -7,7 +7,7 @@ from mycroft.util.log import getLogger
 import unirest
 import random
 
-__author__ = 'jabas'
+__author__ = 'jarbas'
 
 logger = getLogger(__name__)
 
