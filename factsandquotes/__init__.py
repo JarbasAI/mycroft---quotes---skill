@@ -16,8 +16,8 @@ class QuotesSkill(MycroftSkill):
 
     def __init__(self):
         super(QuotesSkill, self).__init__(name="QuotesSkill")
-        self.mashape = "RMVFoC2g1MmshMM8RGP4tJe9TtqCp1tTks6jsnG6IEvglDjqqp"
-        self.birth = "13 May 1992"
+        self.mashape = "xxxxx"
+        self.birth = "13 May 1991"
         self.gender = "male"
 
     def initialize(self):
