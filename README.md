@@ -4,6 +4,8 @@ you need a mashape APi key
 
 https://market.mashape.com/explore?sort=developers
 
+pip install unirest
+
 - say a random quote from a famous person or movie
 - say a random fact about a number
 - say how much time you are have left to live based on gender and birthdate (life expectancy)
