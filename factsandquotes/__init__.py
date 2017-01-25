@@ -39,7 +39,9 @@ class QuotesSkill(MycroftSkill):
                              self.handle_time_to_live_intent)
 
     def handle_quote_intent(self, message):
-        self.speak(self.randomquote())
+        quote, author = self.randomquote()
+        self.speak(quote + " " + author)
+
 
     def handle_fact_intent(self, message):
         fact , number = self.randomfact()
