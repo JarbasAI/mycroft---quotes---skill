@@ -16,12 +16,25 @@ class QuotesSkill(MycroftSkill):
 
     def __init__(self):
         super(QuotesSkill, self).__init__(name="QuotesSkill")
-        self.mashape = "xxxxx"
-        self.birth = "13 May 1991"
-        self.gender = "male"
+        try:
+            # try jarbas core -> https://github.com/MycroftAI/mycroft-core/pull/557
+            self.mashape = self.config_apis.get('MashapeAPI')
+        except:
+            # try to load from config
+            try:
+                self.mashape = self.config.get('MashapeAPI')
+            except:
+                # maybe try to load from skill folder .config or . txt ?
+                self.mashape = "xxx" #insert here api, get api list from proxys or whatever and include here maybe?
+        try:
+            self.birth = self.config['birthdate']
+            self.gender = self.config['gender']
+        except:
+            # no config use defaults
+            self.birth = "1 May 1995"
+            self.gender = "male"
 
     def initialize(self):
-        self.load_data_files(dirname(__file__))
 
         quote_intent = IntentBuilder("quoteIntent")\
             .require("quote").build()
@@ -39,22 +52,21 @@ class QuotesSkill(MycroftSkill):
                              self.handle_time_to_live_intent)
 
     def handle_quote_intent(self, message):
-        quote, author = self.randomquote()
+        quote, author = self.random_quote()
         self.speak(quote + " " + author)
 
-
     def handle_fact_intent(self, message):
-        fact , number = self.randomfact()
+        fact, number = self.random_fact()
         self.speak("Fact about number " + str(number))
         self.speak(fact)
 
     def handle_time_to_live_intent(self, message):
-        current , elapsed, time = self.time_to_live()
+        current, elapsed, time = self.time_to_live()
         self.speak("You are currently " + current + " years old")
         self.speak("You have lived " + elapsed + " of your life")
         self.speak("You  are expected to live another " + time )
 
-    def randomquote(self):
+    def random_quote(self):
         # These code snippets use an open-source library. http://unirest.io/python
         cat = random.choice(("famous", "movies"))
         response = unirest.post("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + cat,
@@ -64,9 +76,9 @@ class QuotesSkill(MycroftSkill):
                                     "Accept": "application/json"
                                 }
                                 )
-        return response.body["quote"] , response.body["author"]
+        return response.body["quote"], response.body["author"]
 
-    def randomfact(self):
+    def random_fact(self):
         # These code snippets use an open-source library. http://unirest.io/python
         response = unirest.get(
             "https://numbersapi.p.mashape.com/random/trivia?fragment=true&json=false&max=10000&min=0",
@@ -96,28 +108,6 @@ class QuotesSkill(MycroftSkill):
         elapsed = str(response["lifeComplete"])[:4]
         # print response.body["author"]
         return current , elapsed, time
-
-    def convertyoda(self, text="speak like yoda"):
-        text = text.replace(" ", "+")
-        response = unirest.get("https://yoda.p.mashape.com/yoda?sentence=" + text,
-                               headers={
-                                   "X-Mashape-Key":self.mashape,
-                                   "Accept": "text/plain"
-                               }
-                               )
-        print response.body
-
-    def convertklingon(self, text="death to all but zorbazour"):
-        text = text.replace(" ", "+")
-        # These code snippets use an open-source library. http://unirest.io/python
-        response = unirest.get("https://klingon.p.mashape.com/klingon?text=" + text,
-                               headers={
-                                   "X-Mashape-Key": self.mashape,
-                                   "X-FunTranslations-Api-Secret": "http://api.funtranslations.com/translate/"
-                               }
-                               )
-        response = response.body["contents"]
-        return response["translated"]
 
     def stop(self):
         pass
