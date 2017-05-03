@@ -12,6 +12,15 @@ __author__ = 'jarbas'
 logger = getLogger(__name__)
 
 
+class FbPost():
+    # this class sends posts to facebook skill
+    def __init__(self, emitter):
+        self.emitter = emitter
+
+    def post_text(self, text, id="me", speech= "Making a post on face book", link= None):
+        self.emitter.emit(Message("fb_post_request", {"type":"text", "id":id, "link":link, "text":text, "speech":speech}))
+
+
 class QuotesSkill(MycroftSkill):
 
     def __init__(self):
@@ -35,6 +44,7 @@ class QuotesSkill(MycroftSkill):
             self.gender = "male"
 
     def initialize(self):
+        self.poster = FbPost(self.emitter)
 
         quote_intent = IntentBuilder("quoteIntent")\
             .require("quote").build()
@@ -45,6 +55,16 @@ class QuotesSkill(MycroftSkill):
             .require("fact").build()
         self.register_intent(fact_intent,
                              self.handle_fact_intent)
+
+        fbquote_intent = IntentBuilder("fbquoteIntent") \
+            .require("fbquote").build()
+        self.register_intent(fbquote_intent,
+                             self.handle_fbquote_intent)
+
+        fbfact_intent = IntentBuilder("fbfactIntent") \
+            .require("fbfact").build()
+        self.register_intent(fbfact_intent,
+                             self.handle_fbfact_intent)
 
         time_to_live_intent = IntentBuilder("timetoliveIntent")\
             .require("timetolive").build()
@@ -59,6 +79,16 @@ class QuotesSkill(MycroftSkill):
         fact, number = self.random_fact()
         self.speak("Fact about number " + str(number))
         self.speak(fact)
+
+    def handle_fbquote_intent(self, message):
+        quote, author = self.random_quote()
+        text = quote + "\n" + author
+        self.poster.post_text(text, speech="Posting a quote on Face book")
+
+    def handle_fbfact_intent(self, message):
+        fact, number = self.random_fact()
+        text = "Fact about number " + str(number) + ":\n" + fact
+        self.poster.post_text(text, speech="Posting a fact on Face book")
 
     def handle_time_to_live_intent(self, message):
         current, elapsed, time = self.time_to_live()
