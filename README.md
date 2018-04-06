@@ -1,32 +1,35 @@
-# mycroft---quotes---skill
+## skill - mashape
 
-- say a random quote from a famous person or movie
-- say a random fact about a number
-- say how much time you are have left to live based on gender and birthdate (life expectancy)
+all the mashape apis
 
-# output example
+## description
 
-        Input: quote
-        2017-04-27 17:56:11,222 - CLIClient - INFO - Speak: Never interrupt your enemy when he is making a mistake. Napoleon Bonaparte
+lots of stuff using mashape api key
 
-        Input: when will i die
-        2017-04-27 17:56:26,797 - CLIClient - INFO - Speak: You are currently 17. years old
-        2017-04-27 17:56:26,816 - CLIClient - INFO - Speak: You have lived 0.23 of your life
-        2017-04-27 17:56:26,841 - CLIClient - INFO - Speak: You  are expected to live another 59 years 1 months 26 days 3 hours 54 minutes 49 seconds
+country data, ingredient information, random quotes and number facts, chatbot fallback
 
-        Input: fact about a number
-        2017-04-27 17:56:32,909 - CLIClient - INFO - Speak: Fact about number 4000
-        2017-04-27 17:56:32,921 - CLIClient - INFO - Speak: the weight in pounds that the Great White Shark can grow to
+## usage
 
-# configuration
-
-you need a mashape APi key, add this to your config file
-
-https://market.mashape.com/explore?sort=developers
-
-# msm install
-
-this skill is msm compatible, you must only add the mashape key to the config and are ready to go
+* ask brainshop if he likes pizza
+* what is the size of portugal
+* what are the borders of portugal
+* what is the capital of portugal
+* what is the currency of portugal
+* what is the language of portugal
+* what is the population of portugal
+* what is the timezone of portugal
+* what are the people that live in portugal called
+* where is portuguese spoken
+* where is portugal located at
+* how many countries do you know about
+* what are the countries in europe
+* famous quote
+* movie quote
+* what are the ingredients of one apple
+* say hello world in klingon
+* random number fact
+* how much time do i have left to live
+* words similar to evil
 
 # manual install
 
