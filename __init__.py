@@ -31,7 +31,7 @@ class MashapeSkill(FallbackSkill):
     @intent_file_handler("brainshop.intent")
     def handle_brainshop(self, message):
         # intent and fallback
-        sentence = message.data.get("sentece", message["utterance"])
+        sentence = message.data.get("sentence", message.data["utterance"])
         self.speak(self.ask_brainshop(sentence))
         return True
 
