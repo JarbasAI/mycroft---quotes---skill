@@ -14,7 +14,24 @@
                         "type": "text",
                         "label": "key",
                         "value": "mX8W7sqzonmshpIlUSgcf4VS2nzNp1dObQYjsniJyZlq3F2RBD"
+                    },
+                    {
+                        "type": "label",
+                        "label": "Brainshop api key"
+                    },
+                    {
+                        "name": "brainshop_key",
+                        "type": "text",
+                        "label": "brainshop_key",
+                        "value": "sX5A2PcYZbsN5EY6"
+                    },
+                    {
+                        "name": "brainshop_uid",
+                        "type": "text",
+                        "label": "brainshop_uid",
+                        "value": "mashape"
                     }
+
                 ]
             }
         ]

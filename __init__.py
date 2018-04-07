@@ -18,6 +18,12 @@ class MashapeSkill(FallbackSkill):
             # https://market.mashape.com/explore?sort=developers
             self.settings["key"] = \
                 "mX8W7sqzonmshpIlUSgcf4VS2nzNp1dObQYjsniJyZlq3F2RBD"
+        if "brainshop_key" not in self.settings:
+            self.settings["brainshop_key"] = \
+                "sX5A2PcYZbsN5EY6"
+        if "brainshop_uid" not in self.settings:
+            self.settings["brainshop_uid"] = \
+                "mashape"
 
     def initialize(self):
         self.register_fallback(self.handle_brainshop, 99)
@@ -107,8 +113,9 @@ class MashapeSkill(FallbackSkill):
     def ask_brainshop(self, sentence):
         sentence = sentence.replace(" ", "+")
         response = unirest.get(
-            "https://acobot-brainshop-ai-v1.p.mashape.com/get?bid=178&key"
-            "=sX5A2PcYZbsN5EY6&uid=mashape&msg=" + sentence,
+            "https://acobot-brainshop-ai-v1.p.mashape.com/get?bid=178&key=" +
+            self.settings["brainshop_key"]+"&uid=" + self.settings["brainshop_uid"] + "&msg=" +
+            sentence,
             headers={
                 "X-Mashape-Key": self.settings["key"],
                 "Accept": "application/json"
