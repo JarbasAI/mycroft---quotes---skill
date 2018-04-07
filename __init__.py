@@ -35,9 +35,10 @@ class MashapeSkill(FallbackSkill):
         self.speak(self.ask_brainshop(sentence))
         return True
 
-    @intent_file_handler("klingon.intent")
+    @intent_handler(IntentBuilder("klingonSay")
+        .require("klingon").require("say"))
     def handle_klingon_intent(self, message):
-        sentence = message.data["sentence"]
+        sentence = message.utterance_remainder()
         # TODO google translate for non english input
         self.speak(self.en_to_klingon(sentence))
 
