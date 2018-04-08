@@ -17,19 +17,31 @@
                     },
                     {
                         "type": "label",
-                        "label": "Brainshop api key"
+                        "label": "Brainshop Keys: http://brainshop.ai/"
                     },
                     {
                         "name": "brainshop_key",
                         "type": "text",
-                        "label": "brainshop_key",
+                        "label": "brainshop key",
                         "value": "sX5A2PcYZbsN5EY6"
                     },
                     {
                         "name": "brainshop_uid",
                         "type": "text",
-                        "label": "brainshop_uid",
+                        "label": "brainshop user id",
                         "value": "mashape"
+                    },
+                    {
+                        "name": "brainshop_bid",
+                        "type": "text",
+                        "label": "brainshop bot id",
+                        "value": "178"
+                    },
+                    {
+                        "name": "fallback_priority",
+                        "type": "number",
+                        "label": "ask brainshop on fallback priority value, the higher the later brainshop is given a chance at intent failures",
+                        "value": "98"
                     }
 
                 ]

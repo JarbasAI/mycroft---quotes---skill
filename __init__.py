@@ -19,14 +19,17 @@ class MashapeSkill(FallbackSkill):
             self.settings["key"] = \
                 "mX8W7sqzonmshpIlUSgcf4VS2nzNp1dObQYjsniJyZlq3F2RBD"
         if "brainshop_key" not in self.settings:
-            self.settings["brainshop_key"] = \
-                "sX5A2PcYZbsN5EY6"
+            self.settings["brainshop_key"] = "sX5A2PcYZbsN5EY6"
         if "brainshop_uid" not in self.settings:
-            self.settings["brainshop_uid"] = \
-                "mashape"
+            self.settings["brainshop_uid"] = "mashape"
+        if "brainshop_bid" not in self.settings:
+            self.settings["brainshop_bid"] = "178"
+        if "fallback_priority" not in self.settings:
+            self.settings["fallback_priority"] = "98"
 
     def initialize(self):
-        self.register_fallback(self.handle_brainshop, 93)
+        self.register_fallback(self.handle_brainshop,
+                               int(self.settings["fallback_priority"]))
 
     @intent_file_handler("similar_word.intent")
     def handle_similar_word_intent(self, message):
@@ -35,16 +38,19 @@ class MashapeSkill(FallbackSkill):
         self.speak(random.choice(words))
 
     @intent_handler(IntentBuilder("askBrainshop")
-        .require("brainshop").optionally("ask").optionally("about"))
+                    .require("brainshop")
+                    .optionally("ask").optionally("about"))
     def handle_brainshop(self, message):
         # intent and fallback
         if "brainshop" in message.data:
             sentence = message.utterance_remainder()
         else:
-            sentence = message.data.get("sentence", message.data[
-            "utterance"])
-        self.speak(self.ask_brainshop(sentence))
-        return True
+            sentence = message.data["utterance"]
+        answer = self.ask_brainshop(sentence)
+        if answer:
+            self.speak(answer)
+            return True
+        return False
 
     #@intent_handler(IntentBuilder("klingonSay")
     #    .require("klingon").require("say"))
@@ -118,9 +124,11 @@ class MashapeSkill(FallbackSkill):
     def ask_brainshop(self, sentence):
         sentence = sentence.replace(" ", "+")
         response = unirest.get(
-            "https://acobot-brainshop-ai-v1.p.mashape.com/get?bid=178&key=" +
-            self.settings["brainshop_key"]+"&uid=" + self.settings["brainshop_uid"] + "&msg=" +
-            sentence,
+            "https://acobot-brainshop-ai-v1.p.mashape.com/get?" +
+            "bid=" + self.settings["brainshop_bid"] +
+            "&key=" + self.settings["brainshop_key"] +
+            "&uid=" + self.settings["brainshop_uid"] +
+            "&msg=" + sentence,
             headers={
                 "X-Mashape-Key": self.settings["key"],
                 "Accept": "application/json"
