@@ -26,7 +26,7 @@ class MashapeSkill(FallbackSkill):
                 "mashape"
 
     def initialize(self):
-        self.register_fallback(self.handle_brainshop, 99)
+        self.register_fallback(self.handle_brainshop, 93)
 
     @intent_file_handler("similar_word.intent")
     def handle_similar_word_intent(self, message):
@@ -34,10 +34,15 @@ class MashapeSkill(FallbackSkill):
         words = self.similar_word(sentence)
         self.speak(random.choice(words))
 
-    @intent_file_handler("brainshop.intent")
+    @intent_handler(IntentBuilder("askBrainshop")
+        .require("brainshop").optionally("ask").optionally("about"))
     def handle_brainshop(self, message):
         # intent and fallback
-        sentence = message.data.get("sentence", message.data["utterance"])
+        if "brainshop" in message.data:
+            sentence = message.utterance_remainder()
+        else:
+            sentence = message.data.get("sentence", message.data[
+            "utterance"])
         self.speak(self.ask_brainshop(sentence))
         return True
 
@@ -80,7 +85,7 @@ class MashapeSkill(FallbackSkill):
         if birth is None:
             self.speak("invalid answer")
             return
-        date = extract_datetime(birth, lang=self.lang)
+        date, leftover = extract_datetime(birth, lang=self.lang)
         birth = str(date.day) + " " + date.month + " " + str(date.year)
         current, elapsed, time = self.time_to_live(birth, gender)
         self.speak("You are currently " + current + " years old")

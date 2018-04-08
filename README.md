@@ -8,7 +8,7 @@ similar words, random quotes and number facts, chatbot fallback
 
 ## usage
 
-* "ask brainshop if he likes pizza"
+* "ask brainshop are you alive"
 * "famous quote"
 * "movie quote"
 * "random number fact"
